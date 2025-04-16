@@ -113,9 +113,10 @@ Logger::Logger(SystemPtr sys, MessengerPtr msg, PotentialPtr pot, AlignerPtr ali
       }
     }
   }
-  ptime now = second_clock::local_time();
+  //ptime now = second_clock::local_time();
+  std::time_t now_c = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
   m_out << "# Log file : " << m_file_name << endl;
-  m_out << "# Generated on : " << now << endl;
+  m_out << "# Generated on : " << std::put_time(std::localtime(&now_c), "%Y-%m-%d %H:%M:%S") << endl;
   m_out << "# ";
   int i = 1;
   for (list<string>::iterator it_l = m_to_log.begin(); it_l != m_to_log.end(); it_l++)

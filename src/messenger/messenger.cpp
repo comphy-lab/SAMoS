@@ -66,10 +66,11 @@ Messenger::~Messenger()
 //! \param m The message to print
 void Messenger::msg(const Messenger::MSG_TYPE& type,const string& m)
 {
-  ptime now = second_clock::local_time();
+  //ptime now = second_clock::local_time();
+  std::time_t now_c = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
   string val = m_msg_type.find(type)->second; // Workaround the fact that std::map::operator[] cannot pass constant arguments
   if (m_to_terminal)
-    cout << val << now << ": " << m << endl;
+    cout << val << std::put_time(std::localtime(&now_c), "%Y-%m-%d %H:%M:%S") << ": " << m << endl;
   else
-    m_out << val << now << ": " << m << endl;
+    m_out << val << std::put_time(std::localtime(&now_c), "%Y-%m-%d %H:%M:%S") << ": " << m << endl;
 }
